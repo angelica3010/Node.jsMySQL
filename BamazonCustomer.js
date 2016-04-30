@@ -36,7 +36,7 @@ connection.connect(function(err) {
 
 // The products table should have each of the following columns:
 
-// ItemID (unique id for each product)
+// ITEMID (unique id for each product)
 
 // ProductName (Name of product)
 
@@ -111,8 +111,8 @@ connection.connect(function(err) {
 
 
 // //why do you have to do connection twice? What are rows and fields?
-connection.query('SELECT * from Bamazon.Products', function(err, rows, fields) {
-  if (err) throw err;
+// connection.query('SELECT * from Bamazon.Products', function(err, rows, fields) {
+//   if (err) throw err;
 
 
 // console.log("Welcome to Bamazon");
@@ -125,7 +125,7 @@ connection.query('SELECT * from Bamazon.Products', function(err, rows, fields) {
 
 
 // //This Works!!
-// //console.log("ItemID:" + rows[i].ITEMID) 
+// //console.log("ITEMID:" + rows[i].ITEMID) 
 
 // //This Works!!
 // //console.log("ProductName:" + rows[i].ProductName) 
@@ -134,10 +134,10 @@ connection.query('SELECT * from Bamazon.Products', function(err, rows, fields) {
 // //console.log("Prices:" + rows[i].Price) 
 
 // //This Works but has needs spaces
-// //console.log(("ItemID:" + rows[i].ITEMID) + ("ProductName:" + rows[i].ProductName) + ("Prices:" + rows[i].Price)) 
+// //console.log(("ITEMID:" + rows[i].ITEMID) + ("ProductName:" + rows[i].ProductName) + ("Prices:" + rows[i].Price)) 
 
 // //Added Spaces in between columns
-// console.log(("ItemID:" + rows[i].ITEMID) + "   " + ("ProductName:" + rows[i].ProductName) + "   "  + ("Prices:" + rows[i].Price)) 
+// console.log(("ITEMID:" + rows[i].ITEMID) + "   " + ("ProductName:" + rows[i].ProductName) + "   "  + ("Prices:" + rows[i].Price)) 
 
 
 // };
@@ -146,34 +146,38 @@ connection.query('SELECT * from Bamazon.Products', function(err, rows, fields) {
 // Rows 113-145 work!!
 
 
-(ITEMID int AUTO_INCREMENT, ProductName VARCHAR(120), DepartmentName VARCHAR(120), Price int, StockQuantity int, PRIMARY KEY(ITEMID));
+//(ITEMID int AUTO_INCREMENT, ProductName VARCHAR(120), DepartmentName VARCHAR(120), Price int, StockQuantity int, PRIMARY KEY(ITEMID));
 
 
 
-prompt.start ()
+// prompt.start ()
 
 
 
-prompt.get(["ITEMID", "ProductName", "StockQuantity"], function (err, result){
+// prompt.get(["ITEMID", "ProductName", "StockQuantity"], function (err, result){
 
-//var itemWanted = new itemWanted(result.ITEMID, result.ProductName, result.DepartmentName, result.Price, result.StockQuantity)
-for(var j=0;j<rows.length;j++) {
-	if (result.ITEMID == rows[j].ITEMID){
-		//console.log("Item Matches")
-		if (result.StockQuantity < = rows[j].StockQuantity
-			//console.log("Stock Quanitity Matches")
+// //var itemWanted = new itemWanted(result.ITEMID, result.ProductName, result.DepartmentName, result.Price, result.StockQuantity)
+// for(var j=0;j<rows.length;j++) {
+// 	if (result.ITEMID == rows[j].ITEMID){
+// 		console.log("Item Matches")
+// 	}
+// }
+// })
+		// if (result.StockQuantity <= rows[j].StockQuantity){
+		// 	//console.log("Stock Quanitity Matches")
+		
 
-console.log("Thanks for your purchase!")
+//console.log("Thanks for your purchase!")
 
-	})
-}else{
-	console.log("We only have" + rows[j].StockQuantity "of" + result.ProductName "in stock")
+// 	}
+// }else{
+// 	console.log("We only have" + rows[j].StockQuantity + "of" + result.ProductName + "in stock")
 
-	//console.log("Item not avaiable")
-}
-};
+// 	//console.log("Item not avaiable")
+// }
+// };
 
-});
+// });
 
 
 
@@ -192,3 +196,38 @@ console.log("Thanks for your purchase!")
 // 	// return student;
 // });
 
+
+connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
+	if (err) throw err;
+	console.log("\n");
+	console.log("Welcome to Bamazon!");
+	
+//this means round to 2 decimal spaces
+	for(var i=0;i<rows.length;i++){
+		console.log(("ITEMID: " + rows[i].ITEMID) + " | " + " " + rows[i].ProductName + " | $" + rows[i].Price.toFixed(2) + " | " + rows[i].StockQuantity + " available");
+	}
+	console.log("\n");
+	prompt.get(['ITEMID', 'StockQuantity'], function (err, result) {
+		for(var j=0;j<rows.length;j++){
+			var totalSales = result.StockQuantity*rows[j].Price;
+			if (result.ITEMID == rows[j].ITEMID){
+				if (result.StockQuantity <= rows[j].StockQuantity){
+					console.log("\n");
+					console.log("Thank You for purchasing " + result.StockQuantity + " packages of " + rows[j].ProductName);
+					console.log("Total cost of your purchase: " + "$" + (totalSales));
+					connection.query("UPDATE Bamazon.Products SET StockQuantity = ? Where ITEMID = ?", [(rows[j].StockQuantity - result.StockQuantity), result.ITEMID], function (err, result) {
+					    if (err) throw err;
+					    connection.end();
+					  });					    
+				}else{
+					console.log(rows[j].StockQuantity + " Insufficient quantity");
+					connection.end();
+				};
+			}else if (result.ITEMID != rows[j].ITEMID){
+				// console.log("You did not select available ITEMID");
+			}else{
+				// console.log("Broken");
+			}
+		};
+	});
+});
