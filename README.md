@@ -1,5 +1,3 @@
-# week12Node.jsMySQL
-
 Week of 12 HW: Node.js & MySQL
 Objectives
 
@@ -48,3 +46,18 @@ Check if your store has enough quantity of the product to meet the customer's re
 If your store DOES have enough of the product to meet the customer's request, you should fulfill their order. This means that you should show them the total cost of their puchase. Then update the SQL database to reflect the remaining quantity.
 
 If this activity took you between 8-10 hours, then stop right here... Otherwise continue to the next set of challenges
+Challenge #2: Manager View (Next Level)
+
+Create a new Node application called BamazonManager.js. Running this application will:
+
+List a set of menu options: 1) View Products for Sale 2) View Low Inventory 3) Add to Inventory 4) Add New Product
+
+If a manager selectis option 1 it should list all of the products available for sale: the item IDs, names, prices, and quantities.
+
+If a manager selects option 2 it should list all items for which the quantity available in stores is less than 5.
+
+If a manager selects option 3 it should provide the manager with the ability to "add more" of any item currently in the store.
+
+If a manager selects option 4 it should provide the manager with the ability to add a completely new product to the store.
+
+If you've completed Challenge #2 and and have put in the hours you are willing to give this activity, then stop right here... Otherwise continue to the next and final challenge
