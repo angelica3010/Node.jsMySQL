@@ -150,51 +150,12 @@ connection.connect(function(err) {
 
 
 
-// prompt.start ()
-
-
-
-// prompt.get(["ITEMID", "ProductName", "StockQuantity"], function (err, result){
-
-// //var itemWanted = new itemWanted(result.ITEMID, result.ProductName, result.DepartmentName, result.Price, result.StockQuantity)
-// for(var j=0;j<rows.length;j++) {
-// 	if (result.ITEMID == rows[j].ITEMID){
-// 		console.log("Item Matches")
-// 	}
-// }
-// })
-		// if (result.StockQuantity <= rows[j].StockQuantity){
-		// 	//console.log("Stock Quanitity Matches")
-		
-
-//console.log("Thanks for your purchase!")
-
-// 	}
-// }else{
-// 	console.log("We only have" + rows[j].StockQuantity + "of" + result.ProductName + "in stock")
-
-// 	//console.log("Item not avaiable")
-// }
-// };
-
-// });
 
 
 
 
-//prompt.get(['name', 'gender', 'grade', 'gpa', 'detentions', 'sleepingInClass', 'catchPhrase'], function (err, result) {
-// 	var student = new Student (result.name, result.gender, result.grade, result.gpa, result.detentions, result.sleepingInClass, result.catchPhrase);
-// 	if (student.canStudentHaveFun()){
-// 			console.log ("You can have fun");
-// 	} else {
-// 			console.log("You cannot have fun!")
-// 	}
-// 	console.log( "**********")
-// 	 if (err){
-// 	 	console.log(err);
-// 	 }
-// 	// return student;
-// });
+
+
 
 
 connection.query("SELECT * FROM Bamazon.Products", function(err, rows, fields) {
